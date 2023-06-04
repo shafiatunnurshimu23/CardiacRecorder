@@ -22,15 +22,15 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class CreateNote extends AppCompatActivity {
     EditText createTitle, createDate, createTime, heartRate, diastolic, systolic, comment;
-    FloatingActionButton saveBtn;
-    FirebaseAuth firebaseAuth;
-    FirebaseFirestore firebaseFirestore;
-    FirebaseUser firebaseUser;
 
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_note);
+
+        oid onClick(View v) {
+            RecordModel recordModel = new RecordModel(heartRate.getText().toString(), diastolic.getText().toString(),
+
+                    }).addOnFailureListener(new OnFailureListener() {
 
         heartRate = findViewById(R.id.heartRate);
         diastolic = findViewById(R.id.diastolic);
@@ -49,19 +49,7 @@ public class CreateNote extends AppCompatActivity {
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                RecordModel recordModel = new RecordModel(heartRate.getText().toString(), diastolic.getText().toString(),
-                            systolic.getText().toString(), comment.getText().toString(), Timestamp.now());
-                    FirebaseFirestore.getInstance().collection("Records").
-                            document(FirebaseAuth.getInstance().getCurrentUser().getUid()).collection("MyRecords")
-                            .document().set(recordModel).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    Toast.makeText(CreateNote.this, "Record Added Successfully", Toast.LENGTH_SHORT).show();
-                                    startActivity(new Intent(CreateNote.this, MainActivity.class));
-                                    finish();
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
+            public v
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
                                     Toast.makeText(CreateNote.this, "Failed to Add record", Toast.LENGTH_SHORT).show();

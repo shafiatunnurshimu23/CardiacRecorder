@@ -28,15 +28,26 @@ public class RecordAdapter extends FirestoreRecyclerAdapter<RecordModel, RecordA
     protected void onBindViewHolder(@NonNull RecordViewHolder holder, int position, @NonNull RecordModel recordModel) {
         holder.heartRate.setText(recordModel.getHeartRate());
         holder.systolic.setText(recordModel.getSystolic());
-        holder.diastolic.setText(recordModel.getDiastolic());
-        holder.comment.setText(recordModel.getComment());
-        holder.timeStamp.setText(new SimpleDateFormat("MMM d, yyyy").format(recordModel.getTimestamp().toDate()));
 
         if(Integer.parseInt(recordModel.getDiastolic())<60 || Integer.parseInt(recordModel.getDiastolic())>80
                 || Integer.parseInt(recordModel.getSystolic())<90 || Integer.parseInt(recordModel.getSystolic())>120) {
             holder.statusIcon.setColorFilter(Color.rgb(255, 0, 0));
         }
+        RecordViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.record_layout, parent, false);
+            return new RecordViewHolder(view);
+        }
 
+        class RecordViewHolder extends RecyclerView.ViewHolder {
+
+            TextView heartRate, systolic, diastolic, comment, timeStamp;
+            ImageView statusIcon;
+            public RecordViewHolder(@NonNull View itemView) {
+                super(itemView);
+
+                heartRate = itemView.findViewById(R.id.heartRate);
+                systolic = itemView.findViewById(R.id.systolic);
+                diastolic = itemView.findViewBy
 //        holder.itemView.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -55,21 +66,7 @@ public class RecordAdapter extends FirestoreRecyclerAdapter<RecordModel, RecordA
 
     @NonNull
     @Override
-    public RecordViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.record_layout, parent, false);
-        return new RecordViewHolder(view);
-    }
-
-    class RecordViewHolder extends RecyclerView.ViewHolder {
-
-        TextView heartRate, systolic, diastolic, comment, timeStamp;
-        ImageView statusIcon;
-        public RecordViewHolder(@NonNull View itemView) {
-            super(itemView);
-
-            heartRate = itemView.findViewById(R.id.heartRate);
-            systolic = itemView.findViewById(R.id.systolic);
-            diastolic = itemView.findViewById(R.id.diastolicTxt);
+    publicId(R.id.diastolicTxt);
             comment = itemView.findViewById(R.id.comment);
             timeStamp = itemView.findViewById(R.id.date);
             statusIcon = itemView.findViewById(R.id.statusIcon);

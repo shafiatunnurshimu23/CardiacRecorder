@@ -25,22 +25,22 @@ public class ForgetPasswordFragment extends Fragment {
 
     EditText email;
     ImageButton btnClose;
+    public void onClick(View v) {
+        Intent intent = new Intent(getActivity(), MainActivity.class);
+        startActivity(intent);
+        getActivity().finish();
+    }
+});
+
+        btnForgetPassword.setOnClickListener(new View.OnClickListener() {
+@Override
+public void onClick(View v) {
+        String mail = email.getText().toString().trim();
+        if(mail.isEmpty()) {
+        Toast.makeText(getActivity(), "Enter Email", Toast.LENGTH_SHORT).show();
+        }
     Button btnForgetPassword;
     TextView btnSignIn;
-    FirebaseAuth firebaseAuth;
-    FrameLayout parentFrameLayout;
-    private final String emailPattern =  "[a-zA-Z0-9._-]+@[a-z]+.[a-z]+";
-
-    public ForgetPasswordFragment() {
-        // Required empty public constructor
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_forget_password, container, false);
-        email = view.findViewById(R.id.email);
-        btnClose = view.findViewById(R.id.btnClose);
         btnForgetPassword = view.findViewById(R.id.btnForgetPassword);
         btnSignIn = view.findViewById(R.id.login);
         firebaseAuth = FirebaseAuth.getInstance();
@@ -77,7 +77,12 @@ public class ForgetPasswordFragment extends Fragment {
                                 setFragment(new SignInFragment());
                             }
                             else {
-                                Toast.makeText(getActivity(), "Wrong Email", Toast.LENGTH_SHORT).show();
+                                To\
+private void setFragment(Fragment fragment) {
+        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(parentFrameLayout.getId(), fragment);
+        fragmentTransaction.commit();
+        }ast.makeText(getActivity(), "Wrong Email", Toast.LENGTH_SHORT).show();
                             }
 
                         }

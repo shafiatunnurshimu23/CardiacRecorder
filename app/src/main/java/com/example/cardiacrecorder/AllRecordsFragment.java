@@ -25,38 +25,44 @@ import java.util.List;
 public class AllRecordsFragment extends Fragment {
     FloatingActionButton createRecordFabBtn;
     RecyclerView recyclerView;
-    StaggeredGridLayoutManager staggeredGridLayoutManager;
+    FirestoreRecyclerOptions<RecordModel> options = new FirestoreRecyclerOptions.Builder<RecordModel>()
+            .setQuery(query, RecordModel.class).build();
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+    recordAdapter = new RecordAdapter(options, getContext());
+        recyclerView.setAdapter(recordAdapter);
 
-    FirebaseUser firebaseUser;
-    FirebaseFirestore firebaseFirestore;
-    List<RecordModel> recordModelList;
-    RecordAdapter recordAdapter;
+        createRecordFabBtn.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            startActivity(new Intent(getContext(), CreateNote.class));
+        }
+    });
+
+        return view;
+}
+    StaggeredGridLayoutManager staggeredGridLayoutManager;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_all_records,container,false);
 
-        recyclerView = view.findViewById(R.id.recyclerView);
+        recyclerView = view.findViewById(R.id@Override
+        public void onStop() {
+            super.onStop();
+            recordAdapter.stopListening();
+        }
+
+        @Override
+        public void onResume() {
+            super.onResume();
+            recordAdapter.notifyDataSetChanged();
+        }.recyclerView);
         createRecordFabBtn = view.findViewById(R.id.createNoteFabBtn);
 
         Query query = FirebaseFirestore.getInstance().collection("Records")
                 .document(FirebaseAuth.getInstance().getCurrentUser().getUid()).collection("MyRecords")
                 .orderBy("timestamp", Query.Direction.DESCENDING);
-        FirestoreRecyclerOptions<RecordModel> options = new FirestoreRecyclerOptions.Builder<RecordModel>()
-                .setQuery(query, RecordModel.class).build();
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recordAdapter = new RecordAdapter(options, getContext());
-        recyclerView.setAdapter(recordAdapter);
 
-        createRecordFabBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getContext(), CreateNote.class));
-            }
-        });
-
-        return view;
-    }
 
     @Override
     public void onStart() {
@@ -64,17 +70,7 @@ public class AllRecordsFragment extends Fragment {
         recordAdapter.startListening();
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        recordAdapter.stopListening();
-    }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        recordAdapter.notifyDataSetChanged();
-    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
